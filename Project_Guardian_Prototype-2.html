@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10243a">
+<title>Project Guardian — Child Online Safety</title>
+<style>
+:root{--navy:#10243a;--blue:#1e5b83;--teal:#167c80;--paper:#f3f7fa;--ink:#152334;--muted:#526477;--red:#a82e38;--amber:#8a5a00;--green:#176b49}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.45}
+header{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:22px 18px 20px}
+header .brand{font-size:12px;letter-spacing:2px;font-weight:800;opacity:.85}
+header h1{margin:5px 0;font-size:29px}header p{margin:0;max-width:600px;color:#e5f0f7}
+main{max-width:720px;margin:auto;padding:16px}
+.notice{background:#fff4d8;border-left:5px solid #d39a22;border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+button,.tile{font:inherit}
+.tile{background:white;border:1px solid #d7e2ea;border-radius:12px;padding:15px 13px;text-align:left;min-height:106px;box-shadow:0 2px 5px #132a3b0b;color:var(--ink);cursor:pointer}
+.tile strong{display:block;font-size:16px;margin:5px 0}.tile span{font-size:13px;color:var(--muted)}
+.icon{font-size:24px}
+.panel{display:none;background:white;border:1px solid #d7e2ea;border-radius:12px;padding:17px;margin:14px 0;box-shadow:0 2px 6px #132a3b0b}
+.panel.active{display:block}.panel h2{margin:0 0 8px;font-size:21px}
+label{font-weight:700;display:block;margin:12px 0 6px}
+textarea,input{width:100%;border:1px solid #aebfce;border-radius:8px;padding:12px;font:inherit;background:#fff;color:var(--ink)}
+textarea{min-height:130px;resize:vertical}
+.primary{background:var(--blue);color:white;border:0;border-radius:8px;padding:12px 15px;font-weight:750;cursor:pointer;margin-top:10px}
+.secondary{background:#e7eef4;color:var(--navy);border:1px solid #c8d6e1;border-radius:8px;padding:10px 13px;font-weight:700;cursor:pointer;margin-top:8px}
+.result{margin-top:13px;padding:13px;border-radius:8px;background:#edf3f7;white-space:pre-wrap}
+.result.high{background:#fde9e9;border-left:5px solid var(--red)}.result.medium{background:#fff4d8;border-left:5px solid #d39a22}.result.low{background:#e7f6ed;border-left:5px solid var(--green)}
+ul{padding-left:22px}li{margin:7px 0}.small{font-size:13px;color:var(--muted)}
+a{color:#075a8c;overflow-wrap:anywhere}
+footer{max-width:720px;margin:auto;padding:8px 18px 30px;color:var(--muted);font-size:12px}
+@media(max-width:390px){.grid{grid-template-columns:1fr}.tile{min-height:auto}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">A CHILD-SAFETY PROJECT</div>
+  <h1>🛡️ Project Guardian</h1>
+  <p>Recognize online grooming warning signs. Get help. Protect children.</p>
+</header>
+<main>
+  <div class="notice"><strong>Important:</strong> This is an early, private prototype—not a professional monitoring service and not proof that someone is a predator. It does not contact police or monitor other apps automatically.</div>
+  <div class="grid">
+    <button class="tile" onclick="showPanel('scan')"><span class="icon">🔍</span><strong>Check a Message</strong><span>Look for possible grooming or luring warning signs.</span></button>
+    <button class="tile" onclick="showPanel('help')"><span class="icon">🚨</span><strong>Get Help Now</strong><span>What to do if a child may be in immediate danger.</span></button>
+    <button class="tile" onclick="showPanel('parent')"><span class="icon">👨‍👧</span><strong>Parent Safety Center</strong><span>Practical settings and conversation tips.</span></button>
+    <button class="tile" onclick="showPanel('learn')"><span class="icon">📚</span><strong>Learn Warning Signs</strong><span>Common manipulation tactics.</span></button>
+    <button class="tile" onclick="showPanel('report')"><span class="icon">📋</span><strong>Report a Concern</strong><span>Find trusted reporting resources.</span></button>
+    <button class="tile" onclick="showPanel('privacy')"><span class="icon">🔒</span><strong>Privacy & Limits</strong><span>What this prototype does and doesn't do.</span></button>
+  </div>
+
+  <section id="scan" class="panel">
+    <h2>🔍 Check a Message</h2>
+    <p>Paste only the text you are comfortable checking. Remove names, phone numbers, addresses, school names, and other identifying details first.</p>
+    <label for="message">Suspicious message or short conversation</label>
+    <textarea id="message" maxlength="5000" placeholder="Paste message text here…"></textarea>
+    <button class="primary" onclick="analyze()">Analyze warning signs</button>
+    <button class="secondary" onclick="document.getElementById('message').value='';document.getElementById('analysisResult').innerHTML='';document.getElementById('analysisResult').className='result';">Clear text</button>
+    <div id="analysisResult" class="result" aria-live="polite">Your text is checked on this device using simple phrase patterns. It is not sent to a server.</div>
+    <p class="small">This is a basic phrase-matching demonstration, not an AI model. It can miss danger or flag harmless messages. If something feels wrong, tell a trusted adult even if the result is low concern.</p>
+  </section>
+
+  <section id="help" class="panel">
+    <h2>🚨 Get Help Now</h2>
+    <p><strong>If someone is trying to take a child, a child is missing, or danger is happening now, call 911 in the United States.</strong> Move to a safer place with a trusted adult if possible. Do not go to meet the person or confront them.</p>
+    <ul>
+      <li>Tell a trusted adult immediately. A child should not have to handle this alone.</li>
+      <li>Do not share your location, address, school, passwords, or private images.</li>
+      <li>Save relevant messages and account details if it is safe to do so. Do not forward or download sexual images of minors.</li>
+      <li>Block/report the account after preserving appropriate evidence, unless a trusted investigator advises otherwise.</li>
+    </ul>
+    <p><strong>U.S. National Center for Missing & Exploited Children:</strong><br><a href="https://report.cybertip.org/" target="_blank" rel="noopener">Report suspected online child exploitation</a></p>
+    <p><strong>Missing child:</strong> call local law enforcement; do not wait to file a report.</p>
+  </section>
+
+  <section id="parent" class="panel">
+    <h2>👨‍👧 Parent Safety Center</h2>
+    <ul>
+      <li>Set accounts to private and restrict messages, friend requests, and voice chat from strangers.</li>
+      <li>Turn off public location sharing; avoid posting a child's school, routine, or live location.</li>
+      <li>Agree that secret meetups, rides, gifts, or requests to move to private apps must be discussed with a trusted adult.</li>
+      <li>Tell children they can come to you without being punished for telling the truth about a scary conversation.</li>
+      <li>Review safety settings together, in a way suitable for the child's age.</li>
+    </ul>
+    <p><a href="https://www.missingkids.org/netsmartz" target="_blank" rel="noopener">NCMEC NetSmartz online safety resources</a></p>
+  </section>
+
+  <section id="learn" class="panel">
+    <h2>📚 Warning Signs to Know</h2>
+    <ul>
+      <li>Someone insists a friendship or conversation must be secret from parents or trusted adults.</li>
+      <li>They pressure a child to move quickly to private messaging, share personal information, or send images.</li>
+      <li>They ask for a home address, school, live location, or a secret in-person meeting.</li>
+      <li>They use threats, guilt, flattery, gifts, or blackmail to control the child.</li>
+      <li>They try to isolate the child from friends, family, or other trusted adults.</li>
+    </ul>
+    <p>One clue alone doesn't prove criminal intent. Patterns, context, and a child's safety matter. Children should tell a trusted adult about concerning behavior even when unsure.</p>
+  </section>
+
+  <section id="report" class="panel">
+    <h2>📋 Report a Concern</h2>
+    <p>For suspected online child sexual exploitation in the United States, use the official NCMEC CyberTipline:</p>
+    <p><a href="https://report.cybertip.org/" target="_blank" rel="noopener">https://report.cybertip.org/</a></p>
+    <p>For immediate danger or a missing child, contact local law enforcement or call 911. Report the account through the platform where it occurred as well.</p>
+    <p>Keep a factual record of usernames, dates, URLs, and message text where safe. Do not publicly post accusations or try to investigate or confront the person yourself.</p>
+  </section>
+
+  <section id="privacy" class="panel">
+    <h2>🔒 Privacy & Limits</h2>
+    <ul>
+      <li>This prototype runs its simple text check locally in this page. It does not upload the text or save it after you close or refresh the page.</li>
+      <li>It does not read messages from social media or games, track anyone, identify a real person, or automatically contact authorities.</li>
+      <li>It is not a substitute for a parent, trained child-safety professional, or emergency service.</li>
+      <li>Before any public launch, the project needs security and privacy review, accessible child-friendly design, and careful testing with fictional examples.</li>
+    </ul>
+  </section>
+</main>
+<footer>Project Guardian prototype • Free educational starter • Not an emergency service • If immediate danger exists, call 911 in the U.S.</footer>
+<script>
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  const panel=document.getElementById(id);
+  if(panel){panel.classList.add('active');panel.scrollIntoView({behavior:'smooth',block:'start'});}
+}
+function analyze(){
+  const raw=document.getElementById('message').value.trim();
+  const out=document.getElementById('analysisResult');
+  if(!raw){out.className='result';out.textContent='Paste a message first. Remove personal details where possible.';return;}
+  const t=raw.toLowerCase();
+  const groups=[
+    {name:'secrecy or isolation',patterns:[/don.t tell (your )?(mom|mum|mother|dad|father|parents|family|anyone)/,/keep (this|us|our chat|our relationship) secret/,/between (you and me|us)/,/your parents wouldn.t understand/,/hide (this|our chat|the messages)/]},
+    {name:'secret meeting or leaving',patterns:[/meet me (alone|secretly|outside|at night)/,/come (to|with) me/,/sneak out/,/leave (your )?(house|home)/,/i.ll pick you up/,/don.t tell (anyone|your parents) where/]},
+    {name:'personal information or location',patterns:[/what.s your address/,/send me your location/,/share your live location/,/what school do you go to/,/where do you live/,/send (me )?your phone number/]},
+    {name:'pressure for private images',patterns:[/send (me )?(a )?(pic|picture|photo|nude|nudes)/,/show me your body/,/take your clothes off/,/private pictures/]},
+    {name:'threats or blackmail',patterns:[/i.ll expose you/,/i.ll tell everyone/,/if you don.t .* i.ll/,/i know where you live/,/you.ll be sorry/,/blackmail/,/i.ll hurt you/]},
+    {name:'moving to private contact',patterns:[/move to (another|a different) app/,/message me on (whatsapp|telegram|snapchat|discord|signal)/,/don.t use this app/]}
+  ];
+  let hits=[];
+  groups.forEach(g=>{if(g.patterns.some(p=>p.test(t)))hits.push(g.name);});
+  if(hits.length>=2){
+    out.className='result high';
+    out.textContent='HIGHER CONCERN — multiple warning patterns found\\n\\nPossible signs: '+hits.join('; ')+'.\\n\\nDo not meet this person or share more information. Show the messages to a trusted adult. If there is an immediate threat or attempted abduction, call 911 in the U.S. Report suspected online child exploitation at report.cybertip.org.\\n\\nThis is not proof of a crime; a human should review the context.';
+  }else if(hits.length===1){
+    out.className='result medium';
+    out.textContent='NEEDS ATTENTION — a possible warning pattern was found\\n\\nPossible sign: '+hits[0]+'.\\n\\nPause before replying, do not share personal information or meet in secret, and talk with a trusted adult. This result is not proof of a crime.';
+  }else{
+    out.className='result low';
+    out.textContent='NO MATCH FOUND — this does NOT mean the message is safe.\\n\\nThis basic checker only looks for a few phrases and can miss subtle manipulation, coded language, images, or context. If the conversation feels uncomfortable or secretive, ask a trusted adult for help.';
+  }
+}
+</script>
+</body>
+</html>
